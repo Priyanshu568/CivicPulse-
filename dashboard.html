@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CivicPulse — Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+
+<header class="app-header">
+  <div class="brand"><span class="brand-dot"></span><h1>CivicPulse</h1></div>
+  <div class="header-right">
+    <span id="userName"></span>
+    <span class="role-pill" id="userRole"></span>
+    <button class="btn btn-secondary btn-small" id="logoutBtn">Log out</button>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="report">Report an Issue</button>
+  <button class="tab-btn" data-tab="map">Map View</button>
+  <button class="tab-btn" data-tab="board">Status Board</button>
+  <button class="tab-btn" data-tab="feedback">Feedback</button>
+  <button class="tab-btn admin-only" data-tab="finance">Contractor Finance</button>
+</nav>
+
+<div class="main-content">
+
+  <!-- ===== REPORT TAB ===== -->
+  <section class="tab-panel active" id="tab-report">
+    <div class="card">
+      <h2>Submit a Civic Issue</h2>
+      <p class="hint">Upload a photo and add a short description (stand-in for a voice note transcript). Our classifier will auto-tag the category, severity, and route it to the right department.</p>
+      <form id="reportForm">
+        <div class="grid-2">
+          <div class="field">
+            <label>Issue category</label>
+            <select id="category" required>
+              <option value="">Select…</option>
+              <option>Pothole</option>
+              <option>Road Damage</option>
+              <option>Streetlight</option>
+              <option>Garbage Overflow</option>
+              <option>Water Leakage</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Photo</label>
+            <input type="file" id="photo" accept="image/*" capture="environment">
+          </div>
+        </div>
+        <div class="field">
+          <label>Description / voice note transcript</label>
+          <textarea id="description" rows="3" placeholder="e.g. Deep pothole near the bus stop, cars swerving to avoid it"></textarea>
+        </div>
+        <div class="field">
+          <label>Or record a voice note describing the issue</label>
+          <div class="audio-recorder" id="reportRecorder">
+            <button type="button" class="btn btn-secondary btn-small" data-action="record">🎙️ Record</button>
+            <button type="button" class="btn btn-secondary btn-small" data-action="stop" style="display:none;">⏹ Stop</button>
+            <span class="recording-indicator" style="display:none;">● Recording…</span>
+            <audio controls style="display:none;"></audio>
+            <button type="button" class="btn btn-secondary btn-small" data-action="clear" style="display:none;">✕ Discard</button>
+          </div>
+        </div>
+
+        <div class="card" style="background:var(--bg); margin: 4px 0 18px; padding:16px 18px;">
+          <h2 style="font-size:0.95rem; margin-top:0;">Reporter contact and address</h2>
+          <p class="hint" style="margin-top:-4px;">So the department can reach you or find the issue on the ground. Use your live location to auto-fill the area details below, or type them in yourself.</p>
+
+          <button type="button" class="btn btn-secondary btn-small" id="useLocationBtn" style="margin-bottom:16px;">📍 Use my current location to auto-fill area details</button>
+
+          <div class="grid-2">
+            <div class="field">
+              <label>Mobile number</label>
+              <input type="tel" id="mobile" placeholder="e.g. 9876543210" required inputmode="numeric" maxlength="10" pattern="[0-9]{10}">
+            </div>
+            <div class="field">
+              <label>House / Flat No.</label>
+              <input type="text" id="houseNo" placeholder="e.g. 12B">
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label>Street / Road</label>
+              <input type="text" id="street" placeholder="e.g. MG Road">
+            </div>
+            <div class="field">
+              <label>Landmark (optional)</label>
+              <input type="text" id="landmark" placeholder="e.g. Near City Mall">
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label>Area / Locality</label>
+              <input type="text" id="address" placeholder="e.g. Salt Lake Sector V">
+            </div>
+            <div class="field">
+              <label>PIN code</label>
+              <input type="text" id="pincode" placeholder="e.g. 700091" inputmode="numeric" maxlength="6" pattern="[0-9]{6}">
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label>City / Town</label>
+              <input type="text" id="city" placeholder="e.g. Kolkata">
+            </div>
+            <div class="field">
+              <label>State</label>
+              <input type="text" id="state" placeholder="e.g. West Bengal">
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-secondary btn-small" id="lookupAddressBtn">🔍 Confirm this address</button>
+          <p class="hint" id="lookupStatus"></p>
+          <p class="hint" id="pincodeDetails" style="font-weight:600;"></p>
+
+          <!-- Coordinates are still tracked behind the scenes for the map and duplicate-detection, just not shown as raw numbers. -->
+          <input type="hidden" id="lat">
+          <input type="hidden" id="lng">
+        </div>
+
+        <div><button type="submit" class="btn btn-primary" style="width:auto; padding-left:28px; padding-right:28px;">Submit Report</button></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== MAP TAB ===== -->
+  <section class="tab-panel" id="tab-map">
+    <div class="card">
+      <h2>Geotagged Issue Map</h2>
+      <p class="hint">Markers cluster by proximity — reports flagged as likely duplicates share the same pin area.</p>
+      <div id="map"></div>
+    </div>
+  </section>
+
+  <!-- ===== STATUS BOARD TAB ===== -->
+  <section class="tab-panel" id="tab-board">
+    <div class="card">
+      <h2>Public Status Board</h2>
+      <p class="hint">Every submitted report, its routing, current status, and the assigned contractor's details.</p>
+    </div>
+    <div class="report-list" id="reportList">
+      <div class="empty-state">Loading reports…</div>
+    </div>
+  </section>
+
+  <!-- ===== FEEDBACK TAB ===== -->
+  <section class="tab-panel" id="tab-feedback">
+    <div class="card">
+      <h2>Share Feedback</h2>
+      <p class="hint">Tell us what's working, what isn't, or suggest an improvement. Type it, record a quick voice note, or both.</p>
+      <form id="feedbackForm">
+        <div class="field">
+          <label>How would you rate your experience?</label><br>
+          <div class="star-rating" id="starRating">
+            <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
+          </div>
+          <input type="hidden" id="feedbackRating">
+        </div>
+        <div class="field">
+          <label>Message (optional if you record a voice note)</label>
+          <textarea id="feedbackMessage" rows="3" placeholder="What's on your mind?"></textarea>
+        </div>
+        <div class="field">
+          <label>Or record a voice note</label>
+          <div class="audio-recorder" id="feedbackRecorder">
+            <button type="button" class="btn btn-secondary btn-small" data-action="record">🎙️ Record</button>
+            <button type="button" class="btn btn-secondary btn-small" data-action="stop" style="display:none;">⏹ Stop</button>
+            <span class="recording-indicator" style="display:none;">● Recording…</span>
+            <audio controls style="display:none;"></audio>
+            <button type="button" class="btn btn-secondary btn-small" data-action="clear" style="display:none;">✕ Discard</button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:auto; padding-left:28px; padding-right:28px;">Submit Feedback</button>
+      </form>
+    </div>
+
+    <div class="card staff-only" id="feedbackListCard">
+      <h2>All Feedback</h2>
+      <p class="hint">Visible to department and admin accounts only.</p>
+      <div class="report-list" id="feedbackList"><div class="empty-state">Loading feedback…</div></div>
+    </div>
+  </section>
+
+  <!-- ===== CONTRACTOR FINANCE TAB (admin only) ===== -->
+  <section class="tab-panel" id="tab-finance">
+    <div class="card">
+      <h2>Contractor Finance</h2>
+      <p class="hint">Contract amount, amount claimed, amount paid, contract period and terms — visible to admin accounts only. Citizens and department staff never see this data.</p>
+    </div>
+    <div id="financeList"></div>
+  </section>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

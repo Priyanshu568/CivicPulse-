@@ -1,0 +1,173 @@
+{
+  "users": [
+    {
+      "id": "u_mu9lmuacz7ra3",
+      "name": "Priyanshu Bhatta",
+      "email": "priyanshubhatta2007@gmail.com",
+      "passwordHash": "$2a$10$JepizCudgVYIRReffovq5eBG3aVt5QQrIMjy3o9bnY9yKXEuXtsaG",
+      "role": "citizen",
+      "createdAt": "2026-09-20T09:13:33.396Z"
+    },
+    {
+      "id": "u_0h1ppux72r",
+      "name": "Demo Citizen",
+      "email": "citizen@civicpulse.gov.in",
+      "passwordHash": "$2a$10$P8nJ7pl0JwPCTOPw0EZVB.97u9U2PHRqdk5dkti0nb8oVHJiPvsGe",
+      "role": "citizen",
+      "createdAt": "2026-09-20T16:13:32.247Z"
+    },
+    {
+      "id": "u_rq1blelai9",
+      "name": "Demo Department",
+      "email": "department@civicpulse.gov.in",
+      "passwordHash": "$2a$10$nkqljWUVuknj2/FtIJRp3.U83LxUptd51n86QsFQfckNOVK7dxn36",
+      "role": "department",
+      "createdAt": "2026-09-20T16:13:32.298Z"
+    },
+    {
+      "id": "u_l0zk6cb6w9",
+      "name": "Demo Admin",
+      "email": "admin@civicpulse.gov.in",
+      "passwordHash": "$2a$10$ptXEbtdovcWdF.quj34hrOtd9E4l..oK8hIvEikQwR/581aIYebga",
+      "role": "admin",
+      "createdAt": "2026-09-20T16:13:32.349Z"
+    },
+    {
+      "id": "u_e63acf8c31cb0a38",
+      "name": "Dipika",
+      "email": "mdipika604@gmail.com",
+      "passwordHash": "$2a$10$Zd.Ep2aF4RErRRGV1ow.sO/t3kUhTrrePmvsg1rLeADv0vFsHVk8u",
+      "role": "admin",
+      "createdAt": "2026-09-20T16:18:13.431Z"
+    },
+    {
+      "id": "u_b40166e19401e4c6",
+      "name": "raj",
+      "email": "sanybhatt7240@gmail.com",
+      "passwordHash": "$2a$10$I1FWhmYCOs.uz9cq1m.mG.JpDlCyKwsVwnIzn8qF0RZW6b/amYJ6i",
+      "role": "department",
+      "createdAt": "2026-09-20T16:42:17.126Z"
+    },
+    {
+      "id": "u_ceed96dc3aa7ed8b",
+      "name": "Pranjal Pramanick",
+      "email": "pranjalpramanick6290@gmail.com",
+      "passwordHash": "$2a$10$x4ZdtO/nfGmsy22s8lmkuuczN0iRboNrSPD.CMryuTo89CPvhWwYG",
+      "role": "citizen",
+      "createdAt": "2026-09-21T06:22:49.557Z"
+    }
+  ],
+  "reports": [
+    {
+      "id": "r_10743e26c59f0ad5",
+      "userId": "u_mu9lmuacz7ra3",
+      "userName": "Priyanshu Bhatta",
+      "category": "Pothole",
+      "description": "pot holes in our society ",
+      "severity": "Medium",
+      "department": "Public Works Department",
+      "status": "In Progress",
+      "lat": 23.167869,
+      "lng": 88.557644,
+      "mobile": "8250731670",
+      "fullAddress": "50/11, Hospital Road, (near saratpally, Near shamali medical), Ranaghat, Ranaghat, West Bengal, 741201",
+      "photoPath": "/uploads/f_3a50a3e132925462.jpeg",
+      "audioPath": "/uploads/f_96113e2c82088f1b.webm",
+      "contractorId": "c1",
+      "createdAt": "2026-09-20T16:17:09.514Z",
+      "duplicateOf": []
+    },
+    {
+      "id": "r_0a4d6f32ef6f6e93",
+      "userId": "u_ceed96dc3aa7ed8b",
+      "userName": "Pranjal Pramanick",
+      "category": "Garbage Overflow",
+      "description": "like our society's garbage area is full",
+      "severity": "Medium",
+      "department": "Sanitation Department",
+      "status": "In Progress",
+      "lat": 23.484737,
+      "lng": 88.556707,
+      "mobile": "8250731670",
+      "fullAddress": "50/11, Chakkanthalia Road, saratpally, Ranaghat, West Bengal, 741201",
+      "photoPath": "/uploads/f_1d9d7c7db0a92cfc.jpg",
+      "audioPath": "/uploads/f_badad7d14a3c396b.webm",
+      "contractorId": "c3",
+      "createdAt": "2026-09-21T06:26:00.103Z",
+      "duplicateOf": []
+    }
+  ],
+  "feedback": [],
+  "contractors": [
+    {
+      "id": "c1",
+      "name": "R.K. Infra Works",
+      "email": "contact@rkinfraworks.example.com",
+      "phone": "+91-98300-11223",
+      "company": "R.K. Infrastructure Pvt. Ltd.",
+      "specialties": [
+        "Road Repair",
+        "Pothole"
+      ],
+      "previousProjects": [
+        {
+          "name": "Salt Lake Sector V Road Resurfacing",
+          "year": 2024,
+          "description": "Resurfaced 3.2km of arterial road, completed 2 weeks ahead of schedule."
+        },
+        {
+          "name": "Park Street Pothole Rapid-Fix Drive",
+          "year": 2023,
+          "description": "Filled 140+ potholes across 12 wards in a monsoon emergency contract."
+        }
+      ]
+    },
+    {
+      "id": "c2",
+      "name": "BrightWay Electricals",
+      "email": "service@brightwayelectricals.example.com",
+      "phone": "+91-98311-44556",
+      "company": "BrightWay Electricals & Co.",
+      "specialties": [
+        "Streetlight",
+        "Electrical"
+      ],
+      "previousProjects": [
+        {
+          "name": "Ward 42 Streetlight LED Upgrade",
+          "year": 2024,
+          "description": "Replaced 600 sodium-vapor lamps with LED fixtures, cutting outages by 70%."
+        }
+      ]
+    },
+    {
+      "id": "c3",
+      "name": "CleanCity Sanitation Services",
+      "email": "ops@cleancitysanitation.example.com",
+      "phone": "+91-98322-77889",
+      "company": "CleanCity Sanitation Services LLP",
+      "specialties": [
+        "Garbage",
+        "Sanitation"
+      ],
+      "previousProjects": [
+        {
+          "name": "Bagmari Market Waste Overflow Response",
+          "year": 2024,
+          "description": "Deployed rapid-response teams to clear 18 overflow sites within 48 hours."
+        },
+        {
+          "name": "Ward 29 Bin Modernization",
+          "year": 2022,
+          "description": "Installed 220 covered community bins with scheduled pickup routes."
+        }
+      ],
+      "contractAmount": 100000,
+      "amountClaimed": 10000,
+      "amountPaid": 999999,
+      "contractStartDate": "2026-09-20",
+      "contractEndDate": "2027-02-14",
+      "contractTerms": ""
+    }
+  ]
+}
